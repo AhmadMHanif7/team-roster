@@ -1,6 +1,12 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const pageTemplate = require('./src/page-template');
+const managerClass = require('./lib/Manager');
+const EngineerClass = require('./lib/Engineer');
+const internClass = require('./lib/Intern');
+const managerCard = require('./src/card-template');
+
+
 
 
 //Questions Start
@@ -59,8 +65,13 @@ const promptManager = () => {
             }
         }
     ])
-    .then(function(answer){
-        console.log(answer);
+    .then(function({name,id,email,phone}){
+        let manager = new managerClass (name,id,email,phone);
+        const newManagerCard = managerCard(manager.name, manager.id, manager.email, manager.phone);
+        console.log(manager);
+        console.log(newManagerCard);
+        finishedRoster();
+        
     })
 };
 
@@ -134,6 +145,7 @@ const promptIntern = () => {
     ])
     .then(function(answer){
         console.log(answer);
+        finishedRoster()
     })
 }
 
@@ -194,11 +206,13 @@ const promptEngineer = () => {
         }
     ])
     .then(answer =>{
-        const nameA = answer.name['name'];
-        console.log(nameA);
+        console.log(answer);
+        finishedRoster()
     })
 }
 //Questions End
+
+
 
 //Selection Loop
 
@@ -210,21 +224,17 @@ const finishedRoster = () => {
             name: 'rosterConfirm',
             message: 'Roster Complete:'
         })
-    .then(function(answer){
-        if (answer = true){
+    .then(function({rosterConfirm}){
+        if (rosterConfirm){
             console.log("stop")
         } else {
-            console.log(answer)
+            console.log(rosterConfirm)
+            buildRoster();
         }
     })
 }
 
 const buildRoster = () => {
-    console.log(`
-=======================
-Individual Contributors
-=======================
-    `)
 
     return inquirer.prompt([
         {
@@ -232,14 +242,13 @@ Individual Contributors
             name: 'employee',
             message: 'Employee type: ',
             choices: ['Engineer', 'Intern']
-        },
-        {
-            type: 'confirm',
-            name: 'rosterConfirm',
-            message: 'Roster Complete:'
         }
     ])
-}
+    .then(function({employee}){
+        employee==="Engineer"?promptEngineer():promptIntern();
+        })
+    }
+
 
 
 const initializeApp = () => {
@@ -248,31 +257,18 @@ const initializeApp = () => {
 Team Roster creation
 =======================
 
-
-
-
-=======================
-Manager
-=======================
-
         `
     )
-    buildRoster();
+
+    promptManager();
+
+    // fs.writeFile('./dist/index.html', pageTemplate(), (err) => {
+    // if (err){
+    //     console.log(err)
+    // } else {
+    //     console.log("File has been successfully written\n");
+    // }
+    // })
 };
 
-// initializeApp();
-
-// finishedRoster();
-
-// fs.writeFile('./dist/index.html', pageTemplate(), (err) => {
-//     if (err){
-//         console.log(err)
-//     } else {
-//         console.log("File has been successfully written\n");
-//     }
-// })
-
-
-promptManager();
-
-module.exports = promptManager;
+initializeApp();

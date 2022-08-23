@@ -1,18 +1,4 @@
-const promptManager = require('../index');
-
-const generateManager = () => {
-    return `
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">Manager</h5>
-            <p class="card-text">Name: </p>
-            <p class="card-text">ID:</p>
-            <p class="card-text">Email:</p>
-            <p class="card-text">Phone #:</p>
-        </div>
-    `
-}
-
+const cardTemplate = require('./card-template');
 
 module.exports = templateData => {
 
@@ -40,7 +26,8 @@ module.exports = templateData => {
     
         <div class="container">
             <div class="row">
-                ${generateManager()}
+
+                
                 </div>
             </div>
         </div>

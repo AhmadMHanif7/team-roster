@@ -6,6 +6,6 @@ test("Test for Engineer Class", () => {
     expect(newIntern.name).toBe('Ahmad');
     expect(newIntern.id).toBe(147);
     expect(newIntern.email).toBe('ahmad.hanif@mckesson.com');
-    expect(newIntern.phoneNum).toBe(9728769047);
+    expect(newIntern.phone).toBe(9728769047);
 
 })
