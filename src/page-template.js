@@ -1,4 +1,4 @@
-const cardTemplate = require('./card-template');
+const cardTemplate = require('./manager-template');
 
 module.exports = templateData => {
 
@@ -27,7 +27,7 @@ module.exports = templateData => {
         <div class="container">
             <div class="row">
 
-                
+
                 </div>
             </div>
         </div>

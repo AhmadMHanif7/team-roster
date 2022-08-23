@@ -1,10 +1,18 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 const pageTemplate = require('./src/page-template');
+
 const managerClass = require('./lib/Manager');
-const EngineerClass = require('./lib/Engineer');
+const managerCard = require('./src/manager-template');
+
+const engineerClass = require('./lib/Engineer');
+const engineerCard = require('./src/engineer-template');
+
 const internClass = require('./lib/Intern');
-const managerCard = require('./src/card-template');
+const internCard = require('./src/intern-template');
+
+
+let cards = [];
 
 
 
@@ -68,7 +76,6 @@ const promptManager = () => {
     .then(function({name,id,email,phone}){
         let manager = new managerClass (name,id,email,phone);
         const newManagerCard = managerCard(manager.name, manager.id, manager.email, manager.phone);
-        console.log(manager);
         console.log(newManagerCard);
         finishedRoster();
         
@@ -143,9 +150,11 @@ const promptIntern = () => {
             }
         }
     ])
-    .then(function(answer){
-        console.log(answer);
-        finishedRoster()
+    .then(function({name,id,email,gitHub,school}){
+        let intern = new internClass (name,id,email,gitHub,school);
+        const newInternCard = internCard(intern.name, intern.id, intern.email, intern.gitHub, intern.school);
+        console.log(newInternCard);
+        finishedRoster();
     })
 }
 
@@ -205,9 +214,11 @@ const promptEngineer = () => {
             }
         }
     ])
-    .then(answer =>{
-        console.log(answer);
-        finishedRoster()
+    .then(function({name,id,email,gitHub}){
+        let engineer = new engineerClass (name,id,email,gitHub);
+        const newEngineerCard = internCard(engineer.name, engineer.id, engineer.email, engineer.gitHub);
+        console.log(newEngineerCard);
+        finishedRoster();
     })
 }
 //Questions End
@@ -260,15 +271,13 @@ Team Roster creation
         `
     )
 
-    promptManager();
+    fs.writeFile('./dist/index.html', pageTemplate(), (err) => {
+    if (err){
+        console.log(err)
+    }
+    })
 
-    // fs.writeFile('./dist/index.html', pageTemplate(), (err) => {
-    // if (err){
-    //     console.log(err)
-    // } else {
-    //     console.log("File has been successfully written\n");
-    // }
-    // })
+    promptManager();
 };
 
 initializeApp();
