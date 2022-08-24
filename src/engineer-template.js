@@ -8,5 +8,6 @@ module.exports =  generateEngineer = (a,b,c,d) => {
             <p class="card-text">Email: ${c}</p>
             <p class="card-text">GitHub: ${d}</p>
         </div>
+    </div>
     `
 }

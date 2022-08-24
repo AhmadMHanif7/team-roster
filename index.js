@@ -4,6 +4,7 @@ const pageTemplate = require('./src/page-template');
 
 const managerClass = require('./lib/Manager');
 const managerCard = require('./src/manager-template');
+var managerData = []
 
 const engineerClass = require('./lib/Engineer');
 const engineerCard = require('./src/engineer-template');
@@ -12,6 +13,8 @@ var engineerData = [];
 const internClass = require('./lib/Intern');
 const internCard = require('./src/intern-template');
 var internData = [];
+
+var pageOutput;
 
 
 //Questions Start
@@ -72,10 +75,9 @@ const promptManager = () => {
     ])
     .then(function({name,id,email,phone}){
         let manager = new managerClass (name,id,email,phone);
-        const managerData = managerCard(manager.name,manager.id,manager.email,manager.phone)
-        console.log(managerData);
+        const newManagerCard = managerCard(manager.name,manager.id,manager.email,manager.phone)
+        managerData.push(newManagerCard)
         finishedRoster();
-        
     })
 };
 
@@ -234,9 +236,8 @@ const finishedRoster = () => {
         })
     .then(function({rosterConfirm}){
         if (rosterConfirm){
-            console.log("stop")
-            printData(engineerData);
-            printData(internData);
+            console.log("stop");
+            pageData(managerData,engineerData,internData);
         } else {
             console.log(rosterConfirm)
             buildRoster();
@@ -259,6 +260,12 @@ const buildRoster = () => {
         })
     }
 
+const pageData = (managerData,engineerData,internData) => {
+    // let hold = pageTemplate(managerData,engineerData,internData).toString();
+    console.log(pageTemplate(managerData,engineerData,internData));
+    
+}
+
 const printData = (data) => {
     console.log(data);
 }
@@ -273,12 +280,6 @@ Team Roster creation
     )
 
     promptManager();
-
-    fs.writeFile('./dist/index.html', pageTemplate(managerData,engineerData,internData), (err) => {
-        if (err){
-            console.log(err)
-        }
-    })
 };
 
 initializeApp();

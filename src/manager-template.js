@@ -8,5 +8,6 @@ module.exports =  generateManager = (a,b,c,d) => {
             <p class="card-text">Email: ${c}</p>
             <p class="card-text">Phone #: ${d}</p>
         </div>
+    </div>
     `
 }

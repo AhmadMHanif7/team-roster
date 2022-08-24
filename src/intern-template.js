@@ -9,5 +9,6 @@ module.exports =  generateIntern = (a,b,c,d,e) => {
             <p class="card-text">GitHub: ${d}</p>
             <p class="card-text">School: ${e}</p>
         </div>
+    </div>
     `
 }
