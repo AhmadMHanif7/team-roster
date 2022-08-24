@@ -7,14 +7,11 @@ const managerCard = require('./src/manager-template');
 
 const engineerClass = require('./lib/Engineer');
 const engineerCard = require('./src/engineer-template');
+var engineerData = [];
 
 const internClass = require('./lib/Intern');
 const internCard = require('./src/intern-template');
-
-
-let cards = [];
-
-
+var internData = [];
 
 
 //Questions Start
@@ -75,8 +72,8 @@ const promptManager = () => {
     ])
     .then(function({name,id,email,phone}){
         let manager = new managerClass (name,id,email,phone);
-        const newManagerCard = managerCard(manager.name, manager.id, manager.email, manager.phone);
-        console.log(newManagerCard);
+        const managerData = managerCard(manager.name,manager.id,manager.email,manager.phone)
+        console.log(managerData);
         finishedRoster();
         
     })
@@ -153,7 +150,7 @@ const promptIntern = () => {
     .then(function({name,id,email,gitHub,school}){
         let intern = new internClass (name,id,email,gitHub,school);
         const newInternCard = internCard(intern.name, intern.id, intern.email, intern.gitHub, intern.school);
-        console.log(newInternCard);
+        internData.push(newInternCard);
         finishedRoster();
     })
 }
@@ -216,8 +213,8 @@ const promptEngineer = () => {
     ])
     .then(function({name,id,email,gitHub}){
         let engineer = new engineerClass (name,id,email,gitHub);
-        const newEngineerCard = internCard(engineer.name, engineer.id, engineer.email, engineer.gitHub);
-        console.log(newEngineerCard);
+        const newEngineerCard = engineerCard(engineer.name, engineer.id, engineer.email, engineer.gitHub);
+        engineerData.push(newEngineerCard);
         finishedRoster();
     })
 }
@@ -238,6 +235,8 @@ const finishedRoster = () => {
     .then(function({rosterConfirm}){
         if (rosterConfirm){
             console.log("stop")
+            printData(engineerData);
+            printData(internData);
         } else {
             console.log(rosterConfirm)
             buildRoster();
@@ -260,7 +259,9 @@ const buildRoster = () => {
         })
     }
 
-
+const printData = (data) => {
+    console.log(data);
+}
 
 const initializeApp = () => {
     console.log( `
@@ -271,15 +272,13 @@ Team Roster creation
         `
     )
 
-    fs.writeFile('./dist/index.html', pageTemplate(), (err) => {
-    if (err){
-        console.log(err)
-    }
-    })
-
     promptManager();
+
+    fs.writeFile('./dist/index.html', pageTemplate(managerData,engineerData,internData), (err) => {
+        if (err){
+            console.log(err)
+        }
+    })
 };
 
 initializeApp();
-
-//Test

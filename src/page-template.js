@@ -1,6 +1,4 @@
-const cardTemplate = require('./manager-template');
-
-module.exports = templateData => {
+module.exports = templateData = (manager, engineer, data) => {
 
     return `
 
@@ -27,6 +25,9 @@ module.exports = templateData => {
         <div class="container">
             <div class="row">
 
+                ${manager}
+                ${engineer}
+                ${intern}
 
                 </div>
             </div>
