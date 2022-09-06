@@ -236,7 +236,7 @@ const finishedRoster = () => {
         })
     .then(function({rosterConfirm}){
         if (rosterConfirm){
-            console.log("stop");
+            console.log("Roster Sucessfully Created");
             pageData(managerData,engineerData,internData);
         } else {
             console.log(rosterConfirm)
@@ -261,8 +261,12 @@ const buildRoster = () => {
     }
 
 const pageData = (managerData,engineerData,internData) => {
+
+    fs.writeFile('./dist/index.html',pageTemplate(managerData,engineerData,internData),function(error){
+        if(error) console.error(error)
+    })
     // let hold = pageTemplate(managerData,engineerData,internData).toString();
-    console.log(pageTemplate(managerData,engineerData,internData));
+    return pageTemplate(managerData,engineerData,internData)
     
 }
 
